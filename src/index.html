@@ -2,6 +2,8 @@
 <head>
     <title>auto-complete-jquery-plugin</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.autocomplete.js"></script>
 </head>
 <body>
     <div>
@@ -22,5 +24,12 @@
         </div>
 
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#input").autocompleteToken();
+            $("#textarea").autocompleteToken();
+        });
+    </script>
 </body>
 </html>
