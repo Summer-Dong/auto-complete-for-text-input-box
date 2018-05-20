@@ -22,5 +22,6 @@
         this.blur(function(){
             $(ulNode).css({"display":"none"});
         });
+        
     };
 }(jQuery));
