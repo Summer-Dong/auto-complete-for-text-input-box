@@ -11,11 +11,16 @@
                 }
             });
         }
+
         this.keyup(function(e){
             if(e.keyCode === keycode){
                 document.body.appendChild(ulNode);
                 $(ulNode).css({"display":"inline"});
             }
+        });
+
+        this.blur(function(){
+            $(ulNode).css({"display":"none"});
         })
     };
 }(jQuery));
