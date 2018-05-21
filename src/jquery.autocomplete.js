@@ -20,7 +20,7 @@
         });
 
         this.blur(function(){
-            $(ulNode).css({"display":"none"});
+            $(ulNode).remove();
         });
         
     };
