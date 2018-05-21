@@ -28,6 +28,17 @@
         }
     }
 
+    function getLastestPositionOfCurlyBrace(inputs, ele) {
+        return inputs.substring(0, getCaretPosition(ele)).lastIndexOf('{');
+    }
+
+    function extractNewInputs(inputs, ele) {
+        if (getLastestPositionOfCurlyBrace(inputs, ele) >= 0) {
+            return inputs.substring(getLastestPositionOfCurlyBrace(inputs, ele), getCaretPosition(ele));
+        }
+        return null;
+    }
+
     $.fn.autocompleteToken = function (keycode, sourceData) {
         var ulNode=document.createElement('ul');
         $(ulNode).css({"display":"none"});
