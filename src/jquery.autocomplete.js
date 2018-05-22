@@ -32,36 +32,52 @@
         return inputs.substring(0, getCaretPosition(ele)).lastIndexOf('{');
     }
 
-    function extractNewInputs(inputs, ele) {
-        if (getLastestPositionOfCurlyBrace(inputs, ele) >= 0) {
-            return inputs.substring(getLastestPositionOfCurlyBrace(inputs, ele), getCaretPosition(ele));
+    function extractNewInputs(node) {
+        if (getLastestPositionOfCurlyBrace(node.value, node) >= 0) {
+            return node.value.substring(getLastestPositionOfCurlyBrace(node.value, node), getCaretPosition(node));
         }
         return null;
     }
 
-    $.fn.autocompleteToken = function (keycode, sourceData) {
-        var ulNode=document.createElement('ul');
-        $(ulNode).css({"display":"none"});
-        if(sourceData){
-            sourceData.forEach(function(data){
-                if(data){
-                    var liNode=document.createElement('li');
-                    liNode.innerHTML=data;
-                    ulNode.appendChild(liNode);
+    function filterData(originData, matchedInputs) {
+        return originData.filter(function (data) {
+            return data.slice(0, matchedInputs.length).toLowerCase() === matchedInputs.toLowerCase();
+        });
+    }
+
+    function fullfillUL(node, data) {
+        if (data) {
+            data.forEach(function (ele) {
+                if (ele) {
+                    var liNode = document.createElement('li');
+                    liNode.innerHTML = ele;
+                    node.append(liNode);
                 }
             });
         }
+    }
 
-        this.keyup(function(e){
-            if(e.keyCode === keycode){
+    $.fn.autocompleteToken = function (keycode, sourceData) {
+        this.keyup(function (e) {
+            var ulNode=document.createElement('ul');
+            $(ulNode).css({"display":"inline"});
+            $(ulNode).attr('id','autoCompleteDropDown');
+
+            if (e.keyCode === keycode) {
                 document.body.appendChild(ulNode);
-                $(ulNode).css({"display":"inline"});
+            }
+            var autoCompleteNode = $("#autoCompleteDropDown");
+            var matchedData = filterData(sourceData, extractNewInputs(this));
+            if (matchedData) {
+                autoCompleteNode.length && autoCompleteNode.find('li').remove();
+                !autoCompleteNode.length && document.body.appendChild(ulNode);
+                fullfillUL(autoCompleteNode, matchedData);
             }
         });
 
-        this.blur(function(){
-            $(ulNode).remove();
+        this.blur(function () {
+            $("#autoCompleteDropDown").remove();
         });
-        
+
     };
 }(jQuery));
