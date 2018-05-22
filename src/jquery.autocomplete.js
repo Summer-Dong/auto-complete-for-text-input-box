@@ -50,6 +50,7 @@
             data.forEach(function (ele) {
                 if (ele) {
                     var liNode = document.createElement('li');
+                    $(liNode).css({"display": "list-item"});
                     liNode.innerHTML = ele;
                     node.append(liNode);
                 }
@@ -57,26 +58,29 @@
         }
     }
 
+    function getDropDown(){
+        return $("#autoCompleteDropDown");
+    }
+
     $.fn.autocompleteToken = function (keycode, sourceData) {
         this.keyup(function (e) {
             var ulNode=document.createElement('ul');
-            $(ulNode).css({"display":"inline"});
+            $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
             $(ulNode).attr('id','autoCompleteDropDown');
 
             if (e.keyCode === keycode) {
                 document.body.appendChild(ulNode);
             }
-            var autoCompleteNode = $("#autoCompleteDropDown");
             var matchedData = filterData(sourceData, extractNewInputs(this));
             if (matchedData) {
-                autoCompleteNode.length && autoCompleteNode.find('li').remove();
-                !autoCompleteNode.length && document.body.appendChild(ulNode);
-                fullfillUL(autoCompleteNode, matchedData);
+                getDropDown().length && getDropDown().find('li').remove();
+                !getDropDown().length && document.body.appendChild(ulNode);
+                fullfillUL(getDropDown(), matchedData);
             }
         });
 
         this.blur(function () {
-            $("#autoCompleteDropDown").remove();
+            getDropDown().remove();
         });
 
     };
