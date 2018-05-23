@@ -5,6 +5,6 @@
 * **sourceData**: means the array of list data that appears on the deop down list.
 #### How to use:
 For example
-```
+```js
 $("#input").autocompleteToken(219, tokenArray);
 ```
