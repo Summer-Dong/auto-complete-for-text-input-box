@@ -4,6 +4,6 @@ lable{
     vertical-align: top;
 }
 
-li:hover{
+.hoverLi{
     background-color: blue;
 }

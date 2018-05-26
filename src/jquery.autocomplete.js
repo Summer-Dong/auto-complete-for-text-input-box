@@ -50,7 +50,12 @@
             data.forEach(function (ele) {
                 if (ele) {
                     var liNode = document.createElement('li');
-                    $(liNode).css({"display": "list-item"});
+                    $(liNode).css({"display": "list-item"})
+                        .hover(function(){
+                            $(this).addClass("hoverLi");
+                        },function(){
+                            $(this).removeClass("hoverLi");
+                        });
                     liNode.innerHTML = ele;
                     node.append(liNode);
                 }
@@ -68,9 +73,36 @@
             $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
             $(ulNode).attr('id','autoCompleteDropDown');
 
-            if (e.keyCode === keycode) {
-                document.body.appendChild(ulNode);
+            switch (e.keyCode){
+                case keycode:
+                    !getDropDown().length && document.body.appendChild(ulNode);
+                    break;
+                case 38:
+                    e.preventDefault();
+                    if(getDropDown().find('li.hoverLi').length){
+                        var preLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                            .prev();
+                        preLi ? preLi.addClass('hoverLi') : getDropDown().last().addClass('hoverLi');
+                    }else if(getDropDown().length && !getDropDown().find('li.hoverLi').length){
+                        getDropDown().children().last().addClass('hoverLi');
+                    }
+                    break;
+                case 40:
+                    e.preventDefault();
+                    if(getDropDown().find('li.hoverLi').length){
+                        var nextLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                            .next();
+                        nextLi ? nextLi.addClass('hoverLi') : getDropDown().first().addClass('hoverLi');
+                    }else if(getDropDown().length && !getDropDown().find('li.hoverLi').length){
+                        getDropDown().children().first().addClass('hoverLi');
+                    }
+                    return;
+
+                default:
+                    break;
+
             }
+
             var matchedData = filterData(sourceData, extractNewInputs(this));
             if (matchedData.length) {
                 if(getDropDown().length){
