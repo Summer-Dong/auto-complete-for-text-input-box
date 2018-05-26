@@ -28,13 +28,13 @@
         }
     }
 
-    function getLastestPositionOfCurlyBrace(inputs, ele) {
-        return inputs.substring(0, getCaretPosition(ele)).lastIndexOf('{');
+    function getLastestPositionOfCurlyBrace(ele, keychar) {
+        return ele.value.slice(0, getCaretPosition(ele)).lastIndexOf(keychar);
     }
 
-    function extractNewInputs(node) {
-        if (getLastestPositionOfCurlyBrace(node.value, node) >= 0) {
-            return node.value.substring(getLastestPositionOfCurlyBrace(node.value, node), getCaretPosition(node));
+    function extractNewInputs(node, keychar) {
+        if (getLastestPositionOfCurlyBrace(node, keychar) >= 0) {
+            return node.value.slice(getLastestPositionOfCurlyBrace(node, keychar), getCaretPosition(node));
         }
         return '';
     }
@@ -67,7 +67,19 @@
         return $("#autoCompleteDropDown");
     }
 
-    $.fn.autocompleteToken = function (keycode, sourceData) {
+    function addToken(node, keychar){
+        var token = getDropDown().find('li.hoverLi').text();
+        var inputsUtilCaret = node.value
+            .slice(0, getLastestPositionOfCurlyBrace(node,keychar))
+            .concat(token);
+        node.value = inputsUtilCaret
+            .concat(node.value.slice(getCaretPosition(document.activeElement)));
+        setCaretPosition(node, inputsUtilCaret.length);
+
+        getDropDown().remove();
+    }
+
+    $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
         this.keyup(function (e) {
             var ulNode=document.createElement('ul');
             $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
@@ -86,7 +98,7 @@
                     }else if(getDropDown().length && !getDropDown().find('li.hoverLi').length){
                         getDropDown().children().last().addClass('hoverLi');
                     }
-                    break;
+                    return;
                 case 40:
                     e.preventDefault();
                     if(getDropDown().find('li.hoverLi').length){
@@ -97,13 +109,17 @@
                         getDropDown().children().first().addClass('hoverLi');
                     }
                     return;
-
+                case 13:
+                    if(getDropDown().find('li.hoverLi').length){
+                        addToken(this, keychar);
+                    }
+                    return;
                 default:
                     break;
 
             }
 
-            var matchedData = filterData(sourceData, extractNewInputs(this));
+            var matchedData = filterData(sourceData, extractNewInputs(this, keychar));
             if (matchedData.length) {
                 if(getDropDown().length){
                     getDropDown().find('li').remove();
