@@ -36,11 +36,11 @@
         if (getLastestPositionOfCurlyBrace(node.value, node) >= 0) {
             return node.value.substring(getLastestPositionOfCurlyBrace(node.value, node), getCaretPosition(node));
         }
-        return null;
+        return '';
     }
 
     function filterData(originData, matchedInputs) {
-        return originData.filter(function (data) {
+        return !!matchedInputs && originData.filter(function (data) {
             return data.slice(0, matchedInputs.length).toLowerCase() === matchedInputs.toLowerCase();
         });
     }
@@ -72,10 +72,12 @@
                 document.body.appendChild(ulNode);
             }
             var matchedData = filterData(sourceData, extractNewInputs(this));
-            if (matchedData) {
+            if (matchedData.length) {
                 getDropDown().length && getDropDown().find('li').remove();
                 !getDropDown().length && document.body.appendChild(ulNode);
                 fullfillUL(getDropDown(), matchedData);
+            } else {
+                getDropDown().remove();
             }
         });
 
