@@ -73,8 +73,12 @@
             }
             var matchedData = filterData(sourceData, extractNewInputs(this));
             if (matchedData.length) {
-                getDropDown().length && getDropDown().find('li').remove();
-                !getDropDown().length && document.body.appendChild(ulNode);
+                if(getDropDown().length){
+                    getDropDown().find('li').remove();
+                }else{
+                    document.body.appendChild(ulNode);
+                }
+
                 fullfillUL(getDropDown(), matchedData);
             } else {
                 getDropDown().remove();
