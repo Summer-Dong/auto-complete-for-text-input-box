@@ -79,44 +79,56 @@
         getDropDown().remove();
     }
 
+    function figureKeycodeOption(e) {
+        if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
+            e.preventDefault();
+        }
+        switch (e.keyCode) {
+            case 38:
+                if (getDropDown().find('li.hoverLi').length) {
+                    var preLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                        .prev();
+                    preLi ? preLi.addClass('hoverLi') : getDropDown().last().addClass('hoverLi');
+                } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
+                    getDropDown().children().last().addClass('hoverLi');
+                }
+                return;
+            case 40:
+                if (getDropDown().find('li.hoverLi').length) {
+                    var nextLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                        .next();
+                    nextLi ? nextLi.addClass('hoverLi') : getDropDown().first().addClass('hoverLi');
+                } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
+                    getDropDown().children().first().addClass('hoverLi');
+                }
+                return;
+            case 13:
+                if (getDropDown().find('li.hoverLi').length) {
+                    addToken(this, keychar);
+                }
+                return;
+            default:
+                break;
+        }
+    }
+
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
+        var ulNode=document.createElement('ul');
+        $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
+        $(ulNode).attr('id','autoCompleteDropDown');
+
         this.keyup(function (e) {
-            var ulNode=document.createElement('ul');
-            $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
-            $(ulNode).attr('id','autoCompleteDropDown');
+            if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
+                e.preventDefault();
+                return;
+            }
 
             switch (e.keyCode){
                 case keycode:
                     !getDropDown().length && document.body.appendChild(ulNode);
                     break;
-                case 38:
-                    e.preventDefault();
-                    if(getDropDown().find('li.hoverLi').length){
-                        var preLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
-                            .prev();
-                        preLi ? preLi.addClass('hoverLi') : getDropDown().last().addClass('hoverLi');
-                    }else if(getDropDown().length && !getDropDown().find('li.hoverLi').length){
-                        getDropDown().children().last().addClass('hoverLi');
-                    }
-                    return;
-                case 40:
-                    e.preventDefault();
-                    if(getDropDown().find('li.hoverLi').length){
-                        var nextLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
-                            .next();
-                        nextLi ? nextLi.addClass('hoverLi') : getDropDown().first().addClass('hoverLi');
-                    }else if(getDropDown().length && !getDropDown().find('li.hoverLi').length){
-                        getDropDown().children().first().addClass('hoverLi');
-                    }
-                    return;
-                case 13:
-                    if(getDropDown().find('li.hoverLi').length){
-                        addToken(this, keychar);
-                    }
-                    return;
                 default:
                     break;
-
             }
 
             var matchedData = filterData(sourceData, extractNewInputs(this, keychar));
@@ -131,6 +143,10 @@
             } else {
                 getDropDown().remove();
             }
+        });
+
+        this.keydown(function(e){
+            figureKeycodeOption(e);
         });
 
         this.blur(function () {
