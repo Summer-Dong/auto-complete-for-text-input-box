@@ -46,7 +46,7 @@
     }
 
     function fullfillUL(node, data) {
-        if (data) {
+        data &&
             data.forEach(function (ele) {
                 if (ele) {
                     var liNode = document.createElement('li');
@@ -60,7 +60,6 @@
                     node.append(liNode);
                 }
             });
-        }
     }
 
     function getDropDown(){
@@ -76,7 +75,7 @@
             .concat(node.value.slice(getCaretPosition(document.activeElement)));
         setCaretPosition(node, inputsUtilCaret.length);
 
-        getDropdownRemoved;
+        getDropdownRemoved();
     }
 
     function figureKeycodeOption(e) {
@@ -130,7 +129,6 @@
                     if (getDropDown().find('li.hoverLi').length) {
                         addToken(this, keychar);
                     }
-                    getDropdownRemoved();
                     return;
                 default:
                     break;
