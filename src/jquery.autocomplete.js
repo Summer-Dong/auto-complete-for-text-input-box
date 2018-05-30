@@ -76,11 +76,11 @@
             .concat(node.value.slice(getCaretPosition(document.activeElement)));
         setCaretPosition(node, inputsUtilCaret.length);
 
-        getDropDown().remove();
+        getDropdownRemoved;
     }
 
     function figureKeycodeOption(e) {
-        if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
+        if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && getDropDown().length) {
             e.preventDefault();
         }
         switch (e.keyCode) {
@@ -92,7 +92,7 @@
                 } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
                     getDropDown().children().last().addClass('hoverLi');
                 }
-                return;
+                break;
             case 40:
                 if (getDropDown().find('li.hoverLi').length) {
                     var nextLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
@@ -101,15 +101,14 @@
                 } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
                     getDropDown().children().first().addClass('hoverLi');
                 }
-                return;
-            case 13:
-                if (getDropDown().find('li.hoverLi').length) {
-                    addToken(this, keychar);
-                }
-                return;
+                break;
             default:
                 break;
         }
+    }
+
+    function getDropdownRemoved() {
+        getDropDown().remove();
     }
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
@@ -127,6 +126,12 @@
                 case keycode:
                     !getDropDown().length && document.body.appendChild(ulNode);
                     break;
+                case 13:
+                    if (getDropDown().find('li.hoverLi').length) {
+                        addToken(this, keychar);
+                    }
+                    getDropdownRemoved();
+                    return;
                 default:
                     break;
             }
@@ -141,7 +146,7 @@
 
                 fullfillUL(getDropDown(), matchedData);
             } else {
-                getDropDown().remove();
+                getDropdownRemoved();
             }
         });
 
@@ -150,7 +155,7 @@
         });
 
         this.blur(function () {
-            getDropDown().remove();
+            getDropdownRemoved();
         });
 
     };
