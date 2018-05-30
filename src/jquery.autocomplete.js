@@ -1,4 +1,7 @@
 (function ($) {
+
+    var blurredEle, akeychar;
+
     function getCaretPosition(domElement) {
         var iCaretPos = 0;
         // IE Support
@@ -59,6 +62,9 @@
                         });
                     liNode.innerHTML = ele;
                     node.append(liNode);
+                    $(liNode).click(function(){
+                        addToken(blurredEle, akeychar);
+                    })
                 }
             });
     }
@@ -68,12 +74,14 @@
     }
 
     function addToken(node, keychar){
+        var pos = getCaretPosition(node);
         var token = getDropDown().find('li.hoverLi').text();
         var inputsUtilCaret = node.value
             .slice(0, getLastestPositionOfCurlyBrace(node,keychar))
             .concat(token);
         node.value = inputsUtilCaret
-            .concat(node.value.slice(getCaretPosition(document.activeElement)));
+            .concat(node.value.slice(pos || getCaretPosition(document.activeElement)));
+
         setCaretPosition(node, inputsUtilCaret.length);
 
         getDropdownRemoved();
@@ -108,7 +116,7 @@
     }
 
     function getDropdownRemoved() {
-        getDropDown().remove();
+        getDropDown().length && getDropDown().remove();
     }
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
@@ -125,11 +133,12 @@
             switch (e.keyCode){
                 case keycode:
                     !getDropDown().length && document.body.appendChild(ulNode);
+                    getDropDown().css({'opacity': 1});
+
                     break;
                 case 13:
                     if (getDropDown().find('li.hoverLi').length) {
                         addToken(this, keychar);
-                        getDropDown().remove();
                     }
                     return;
                 default:
@@ -142,6 +151,8 @@
                     getDropDown().find('li').remove();
                 }else{
                     document.body.appendChild(ulNode);
+                    getDropDown().css({'opacity': 1});
+
                 }
 
                 fullfillUL(getDropDown(), matchedData);
@@ -155,7 +166,9 @@
         });
 
         this.blur(function () {
-            getDropdownRemoved();
+            blurredEle = this;
+            akeychar = keychar;
+            getDropDown().css({'opacity': 0});
         });
 
     };
