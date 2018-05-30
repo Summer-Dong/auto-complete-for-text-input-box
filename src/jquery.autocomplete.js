@@ -113,8 +113,8 @@
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
         var ulNode=document.createElement('ul');
-        $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"});
-        $(ulNode).attr('id','autoCompleteDropDown');
+        $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"})
+            .attr('id','autoCompleteDropDown');
 
         this.keyup(function (e) {
             if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
@@ -129,6 +129,7 @@
                 case 13:
                     if (getDropDown().find('li.hoverLi').length) {
                         addToken(this, keychar);
+                        getDropDown().remove();
                     }
                     return;
                 default:
