@@ -52,6 +52,7 @@
                     var liNode = document.createElement('li');
                     $(liNode).css({"display": "list-item"})
                         .hover(function(){
+                            $(this).parent().find('li.hoverLi').removeClass('hoverLi');
                             $(this).addClass("hoverLi");
                         },function(){
                             $(this).removeClass("hoverLi");
