@@ -7,5 +7,5 @@
 #### How to use:
 For example
 ```js
-$("#input").autocompleteToken(219, '{', tokenArray);
+$("#input").autocompleteToken(219, '{', sourceData);
 ```
