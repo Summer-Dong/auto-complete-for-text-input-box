@@ -118,6 +118,7 @@
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
         var ulNode=document.createElement('ul');
+
         $(ulNode).addClass("dropDown")
             .attr('id','autoCompleteDropDown');
 
@@ -153,6 +154,15 @@
                 getDropDown().addClass('showDropDown');
             } else {
                 getDropdownRemoved();
+            }
+
+            if(getDropDown().length){
+                var pos = $(this).getCaretPixelPosition();
+
+                getDropDown().css({
+                    'left': this.offsetLeft + pos.left,
+                    'top': this.offsetTop + pos.top
+                });
             }
         });
 
