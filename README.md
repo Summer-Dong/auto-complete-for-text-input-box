@@ -6,5 +6,5 @@
 * **sourceData**: means the array of list data that appears on the drop down list.
 #### Example
 ```js
-$("#input").autocompleteToken(219, '{', sourceData);
+$("#input").autocompleteToken(219, '{', [A, B, C, D, E, F, G]);
 ```
