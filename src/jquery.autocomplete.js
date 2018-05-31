@@ -59,12 +59,11 @@
                             $(this).addClass("hoverLi");
                         },function(){
                             $(this).removeClass("hoverLi");
-                        });
+                        }).click(function(){
+                        addToken(blurredEle, akeychar);
+                    });
                     liNode.innerHTML = ele;
                     node.append(liNode);
-                    $(liNode).click(function(){
-                        addToken(blurredEle, akeychar);
-                    })
                 }
             });
     }
@@ -74,13 +73,12 @@
     }
 
     function addToken(node, keychar){
-        var pos = getCaretPosition(node);
         var token = getDropDown().find('li.hoverLi').text();
         var inputsUtilCaret = node.value
             .slice(0, getLastestPositionOfCurlyBrace(node,keychar))
             .concat(token);
         node.value = inputsUtilCaret
-            .concat(node.value.slice(pos || getCaretPosition(document.activeElement)));
+            .concat(node.value.slice(getCaretPosition(node)));
 
         setCaretPosition(node, inputsUtilCaret.length);
 
