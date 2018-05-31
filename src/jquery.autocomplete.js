@@ -148,10 +148,9 @@
                     getDropDown().find('li').remove();
                 }else{
                     document.body.appendChild(ulNode);
-                    getDropDown().addClass('showDropDown');
                 }
-
                 fullfillUL(getDropDown(), matchedData);
+                getDropDown().addClass('showDropDown');
             } else {
                 getDropdownRemoved();
             }
