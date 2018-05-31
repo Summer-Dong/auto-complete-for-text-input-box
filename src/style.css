@@ -3,7 +3,16 @@ lable{
     width: 100px;
     vertical-align: top;
 }
-
+.dropDown{
+    display:inline-block;
+    border: 1px solid #c5c5c5;
+}
 .hoverLi{
-    background-color: blue;
+    background-color: aqua;
+}
+.showDropDown{
+    opacity: 1;
+}
+.hideDropDown{
+    opacity: 0;
 }

@@ -53,8 +53,7 @@
             data.forEach(function (ele) {
                 if (ele) {
                     var liNode = document.createElement('li');
-                    $(liNode).css({"display": "list-item"})
-                        .hover(function(){
+                    $(liNode).hover(function(){
                             $(this).parent().find('li.hoverLi').removeClass('hoverLi');
                             $(this).addClass("hoverLi");
                         },function(){
@@ -119,7 +118,7 @@
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
         var ulNode=document.createElement('ul');
-        $(ulNode).css({"display":"inline-block", "border": "1px solid #c5c5c5"})
+        $(ulNode).addClass("dropDown")
             .attr('id','autoCompleteDropDown');
 
         this.keyup(function (e) {
@@ -131,7 +130,7 @@
             switch (e.keyCode){
                 case keycode:
                     !getDropDown().length && document.body.appendChild(ulNode);
-                    getDropDown().css({'opacity': 1});
+                    getDropDown().addClass('showDropDown');
 
                     break;
                 case 13:
@@ -149,8 +148,7 @@
                     getDropDown().find('li').remove();
                 }else{
                     document.body.appendChild(ulNode);
-                    getDropDown().css({'opacity': 1});
-
+                    getDropDown().addClass('showDropDown');
                 }
 
                 fullfillUL(getDropDown(), matchedData);
@@ -166,7 +164,7 @@
         this.blur(function () {
             blurredEle = this;
             akeychar = keychar;
-            getDropDown().css({'opacity': 0});
+            getDropDown().addClass('hideDropDown');
         });
 
     };
