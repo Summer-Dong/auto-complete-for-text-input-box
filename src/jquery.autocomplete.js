@@ -34,13 +34,13 @@
         }
     }
 
-    function getLastestPositionOfCurlyBrace(ele, keychar) {
+    function getLastestPositionOfKeychar(ele, keychar) {
         return ele.value.slice(0, getCaretPosition(ele)).lastIndexOf(keychar);
     }
 
     function extractNewInputs(node, keychar) {
-        if (getLastestPositionOfCurlyBrace(node, keychar) >= 0) {
-            return node.value.slice(getLastestPositionOfCurlyBrace(node, keychar), getCaretPosition(node));
+        if (getLastestPositionOfKeychar(node, keychar) >= 0) {
+            return node.value.slice(getLastestPositionOfKeychar(node, keychar), getCaretPosition(node));
         }
         return '';
     }
@@ -75,10 +75,14 @@
         return $("#autoCompleteDropDown");
     }
 
+    function getHoveredLi() {
+        return getDropDown().find('li.hoverLi');
+    }
+
     function addToken(node, keychar){
-        var token = getDropDown().find('li.hoverLi').text();
+        var token = getHoveredLi().text();
         var inputsUtilCaret = node.value
-            .slice(0, getLastestPositionOfCurlyBrace(node,keychar))
+            .slice(0, getLastestPositionOfKeychar(node,keychar))
             .concat(token);
         node.value = inputsUtilCaret
             .concat(node.value.slice(getCaretPosition(node)));
@@ -88,26 +92,34 @@
         getDropdownRemoved();
     }
 
+    function hasDropDown() {
+        return getDropDown().length;
+    }
+
+    function hasHoveredList() {
+        return getHoveredLi().length;
+    }
+
     function figureKeycodeOption(e) {
-        if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && getDropDown().length && getDropDown().css('opacity') === '1') {
+        if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && hasDropDown() && getDropDown().css('opacity') === '1') {
             e.preventDefault();
         }
         switch (e.keyCode) {
             case 38:
-                if (getDropDown().find('li.hoverLi').length) {
-                    var preLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                if (hasHoveredList()) {
+                    var preLi = getHoveredLi().removeClass('hoverLi')
                         .prev();
                     preLi ? preLi.addClass('hoverLi') : getDropDown().last().addClass('hoverLi');
-                } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
+                } else if (hasDropDown() && !hasHoveredList()) {
                     getDropDown().children().last().addClass('hoverLi');
                 }
                 break;
             case 40:
-                if (getDropDown().find('li.hoverLi').length) {
-                    var nextLi = getDropDown().find('li.hoverLi').removeClass('hoverLi')
+                if (hasHoveredList()) {
+                    var nextLi = getHoveredLi().removeClass('hoverLi')
                         .next();
                     nextLi ? nextLi.addClass('hoverLi') : getDropDown().first().addClass('hoverLi');
-                } else if (getDropDown().length && !getDropDown().find('li.hoverLi').length) {
+                } else if (hasDropDown() && !hasHoveredList()) {
                     getDropDown().children().first().addClass('hoverLi');
                 }
                 break;
@@ -117,22 +129,22 @@
     }
 
     function getDropdownRemoved() {
-        getDropDown().length && getDropDown().remove();
+        hasDropDown() && getDropDown().remove();
     }
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
         this.keyup(function (e) {
-            if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
+            if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()) {
                 e.preventDefault();
                 return;
             }
 
             switch (e.keyCode){
                 case keycode:
-                    !getDropDown().length && document.body.appendChild(ulNode);
+                    !hasDropDown() && document.body.appendChild(ulNode);
                     break;
                 case 13:
-                    if (getDropDown().find('li.hoverLi').length) {
+                    if (hasHoveredList()) {
                         addToken(this, keychar);
                     }
                     return;
@@ -142,7 +154,7 @@
 
             var matchedData = filterData(sourceData, extractNewInputs(this, keychar));
             if (matchedData.length) {
-                if(getDropDown().length){
+                if(hasDropDown()){
                     getDropDown().find('li').remove();
                 }else{
                     document.body.appendChild(ulNode);
@@ -153,7 +165,7 @@
                 getDropdownRemoved();
             }
 
-            if(getDropDown().length){
+            if(hasDropDown()){
                 var pos = $(this).getCaretPixelPosition();
 
                 getDropDown().css({
