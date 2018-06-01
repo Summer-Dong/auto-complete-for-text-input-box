@@ -130,10 +130,10 @@
 
             switch (e.keyCode){
                 case keycode:
-                    !getDropDown().length && document.body.appendChild(ulNode);
-                    getDropDown().addClass('showDropDown');
-
-                    break;
+                    getDropDown().length ? getDropDown().find('li').remove() : document.body.appendChild(ulNode);
+                    fullfillUL(getDropDown(), sourceData);
+                    getDropDown().removeClass('hideDropDown').addClass('showDropDown');
+                    return;
                 case 13:
                     if (getDropDown().find('li.hoverLi').length) {
                         addToken(this, keychar);
@@ -151,7 +151,7 @@
                     document.body.appendChild(ulNode);
                 }
                 fullfillUL(getDropDown(), matchedData);
-                getDropDown().addClass('showDropDown');
+                getDropDown().removeClass('hideDropDown').addClass('showDropDown');
             } else {
                 getDropdownRemoved();
             }
@@ -173,7 +173,7 @@
         this.blur(function () {
             blurredEle = this;
             akeychar = keychar;
-            getDropDown().addClass('hideDropDown');
+            getDropDown().removeClass('showDropDown').addClass('hideDropDown');
         });
 
     };
