@@ -1,6 +1,9 @@
 (function ($) {
 
     var blurredEle, akeychar;
+    var ulNode=document.createElement('ul');
+    $(ulNode).addClass("dropDown")
+        .attr('id','autoCompleteDropDown');
 
     function getCaretPosition(domElement) {
         var iCaretPos = 0;
@@ -49,6 +52,7 @@
     }
 
     function fullfillUL(node, data) {
+        getDropDown().find('li').remove();
         data &&
             data.forEach(function (ele) {
                 if (ele) {
@@ -85,7 +89,7 @@
     }
 
     function figureKeycodeOption(e) {
-        if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && getDropDown().length) {
+        if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && getDropDown().length && getDropDown().css('opacity') === '1') {
             e.preventDefault();
         }
         switch (e.keyCode) {
@@ -117,11 +121,6 @@
     }
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
-        var ulNode=document.createElement('ul');
-
-        $(ulNode).addClass("dropDown")
-            .attr('id','autoCompleteDropDown');
-
         this.keyup(function (e) {
             if ((e.keyCode === 38 || e.keyCode === 40) && getDropDown().length) {
                 e.preventDefault();
@@ -130,10 +129,8 @@
 
             switch (e.keyCode){
                 case keycode:
-                    getDropDown().length ? getDropDown().find('li').remove() : document.body.appendChild(ulNode);
-                    fullfillUL(getDropDown(), sourceData);
-                    getDropDown().removeClass('hideDropDown').addClass('showDropDown');
-                    return;
+                    !getDropDown().length && document.body.appendChild(ulNode);
+                    break;
                 case 13:
                     if (getDropDown().find('li.hoverLi').length) {
                         addToken(this, keychar);
