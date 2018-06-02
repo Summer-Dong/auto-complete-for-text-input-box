@@ -51,7 +51,7 @@
         });
     }
 
-    function fullfillUL(node, data) {
+    function fillDropDown(node, data) {
         getDropDown().find('li').remove();
         data &&
             data.forEach(function (ele) {
@@ -100,6 +100,10 @@
         return getHoveredLi().length;
     }
 
+    function getDropdownRemoved() {
+        hasDropDown() && getDropDown().remove();
+    }
+
     function figureKeycodeOption(e) {
         if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && hasDropDown() && getDropDown().css('opacity') === '1') {
             e.preventDefault();
@@ -128,55 +132,55 @@
         }
     }
 
-    function getDropdownRemoved() {
-        hasDropDown() && getDropDown().remove();
+    function filterSourceData(e, node, keycode,  keychar, sourceData) {
+        if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()) {
+            e.preventDefault();
+            return;
+        }
+
+        switch (e.keyCode){
+            case keycode:
+                !hasDropDown() && document.body.appendChild(ulNode);
+                break;
+            case 13:
+                if (hasHoveredList()) {
+                    addToken(node, keychar);
+                }
+                return;
+            default:
+                break;
+        }
+
+        var matchedData = filterData(sourceData, extractNewInputs(node, keychar));
+        if (matchedData.length) {
+            if(hasDropDown()){
+                getDropDown().find('li').remove();
+            }else{
+                document.body.appendChild(ulNode);
+            }
+            fillDropDown(getDropDown(), matchedData);
+            getDropDown().removeClass('hideDropDown').addClass('showDropDown');
+        } else {
+            getDropdownRemoved();
+        }
+
+        if(hasDropDown()){
+            var pos = $(node).getCaretPixelPosition();
+
+            getDropDown().css({
+                'left': node.offsetLeft + pos.left,
+                'top': node.offsetTop + pos.top
+            });
+        }
     }
 
     $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
-        this.keyup(function (e) {
-            if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()) {
-                e.preventDefault();
-                return;
-            }
-
-            switch (e.keyCode){
-                case keycode:
-                    !hasDropDown() && document.body.appendChild(ulNode);
-                    break;
-                case 13:
-                    if (hasHoveredList()) {
-                        addToken(this, keychar);
-                    }
-                    return;
-                default:
-                    break;
-            }
-
-            var matchedData = filterData(sourceData, extractNewInputs(this, keychar));
-            if (matchedData.length) {
-                if(hasDropDown()){
-                    getDropDown().find('li').remove();
-                }else{
-                    document.body.appendChild(ulNode);
-                }
-                fullfillUL(getDropDown(), matchedData);
-                getDropDown().removeClass('hideDropDown').addClass('showDropDown');
-            } else {
-                getDropdownRemoved();
-            }
-
-            if(hasDropDown()){
-                var pos = $(this).getCaretPixelPosition();
-
-                getDropDown().css({
-                    'left': this.offsetLeft + pos.left,
-                    'top': this.offsetTop + pos.top
-                });
-            }
-        });
-
         this.keydown(function(e){
             figureKeycodeOption(e);
+        });
+
+        this.keyup(function (e) {
+            filterSourceData(e, this, keycode, keychar, sourceData);
         });
 
         this.blur(function () {
