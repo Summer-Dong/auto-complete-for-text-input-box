@@ -10,10 +10,12 @@ lable{
     display:inline-block;
     border: 1px solid #c5c5c5;
     position: absolute;
-    background-color: aliceblue;
+    background-color: #f9f9f9;
+    list-style: none;
+    padding: 0px;
 }
 .hoverLi{
-    background-color: aqua;
+    background-color: #1316ef;
 }
 .showDropDown{
     opacity: 1;
