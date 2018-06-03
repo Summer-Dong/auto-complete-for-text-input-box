@@ -63,7 +63,8 @@
                         },function(){
                             $(this).removeClass("hoverLi");
                         }).click(function(){
-                            getDropDown().css('opacity') === '1' && addToken(blurredEle, akeychar);
+                            blurredEle && addToken(blurredEle, akeychar);
+                            blurredEle = null;
                     });
                     liNode.innerHTML = ele;
                     node.append(liNode);
@@ -192,6 +193,7 @@
         this.blur(function () {
             blurredEle = this;
             akeychar = keychar;
+            console.log($(':focus'));
             getDropDown().removeClass('showDropDown').addClass('hideDropDown');
         });
 
