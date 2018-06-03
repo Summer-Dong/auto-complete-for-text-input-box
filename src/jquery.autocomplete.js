@@ -147,7 +147,7 @@
 
         switch (e.keyCode){
             case keycode:
-                !hasDropDown() && document.body.appendChild(ulNode);
+                !hasDropDown() && $(ulNode).insertAfter(node);
                 break;
             case 13:
                 if (hasHoveredList()) {
@@ -163,7 +163,7 @@
             if(hasDropDown()){
                 getDropDown().find('li').remove();
             }else{
-                document.body.appendChild(ulNode);
+                $(ulNode).insertAfter(node);
             }
             fillDropDown(getDropDown(), matchedData);
             getDropDown().removeClass('hideDropDown').addClass('showDropDown');
