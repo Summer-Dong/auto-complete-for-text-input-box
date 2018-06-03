@@ -63,7 +63,7 @@
                         },function(){
                             $(this).removeClass("hoverLi");
                         }).click(function(){
-                        addToken(blurredEle, akeychar);
+                            getDropDown().css('opacity') === '1' && addToken(blurredEle, akeychar);
                     });
                     liNode.innerHTML = ele;
                     node.append(liNode);
