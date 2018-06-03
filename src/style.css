@@ -3,10 +3,14 @@ lable{
     width: 100px;
     vertical-align: top;
 }
+.inputBox{
+    width: 500px;
+}
 .dropDown{
     display:inline-block;
     border: 1px solid #c5c5c5;
     position: absolute;
+    background-color: aliceblue;
 }
 .hoverLi{
     background-color: aqua;

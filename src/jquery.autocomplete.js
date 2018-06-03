@@ -133,7 +133,7 @@
     }
 
     function filterSourceData(e, node, keycode,  keychar, sourceData) {
-        if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()) {
+        if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
             e.preventDefault();
             return;
         }
