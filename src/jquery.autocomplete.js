@@ -108,6 +108,10 @@
         if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && hasDropDown() && getDropDown().css('opacity') === '1') {
             e.preventDefault();
         }
+        if ((e.keyCode === 27) && hasDropDown() && getDropDown().css('opacity') === '1') {
+            getDropdownRemoved();
+            return;
+        }
         switch (e.keyCode) {
             case 38:
                 if (hasHoveredList()) {
@@ -134,6 +138,9 @@
 
     function filterSourceData(e, node, keycode,  keychar, sourceData) {
         if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
+            e.preventDefault();
+            return;
+        } else if (e.keyCode === 27) {
             e.preventDefault();
             return;
         }
