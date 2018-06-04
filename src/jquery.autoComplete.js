@@ -136,7 +136,7 @@
 
 (function ($) {
 
-    var blurredEle, astartKey;
+    var blurredEle, theStartKey;
     var ulNode=document.createElement('ul');
     $(ulNode).addClass("dropDown")
         .attr('id','autoCompleteDropDown');
@@ -199,7 +199,7 @@
                         },function(){
                             $(this).removeClass("hoverLi");
                         }).click(function(){
-                            blurredEle && addToken(blurredEle, astartKey);
+                            blurredEle && addToken(blurredEle, theStartKey);
                             blurredEle = null;
                     });
                     liNode.innerHTML = ele;
@@ -325,7 +325,7 @@
 
         this.blur(function () {
             blurredEle = this;
-            astartKey = startKey;
+            theStartKey = startKey;
             console.log($(':focus'));
             getDropDown().removeClass('showDropDown').addClass('hideDropDown');
         });
