@@ -272,7 +272,7 @@
         }
     }
 
-    function filterSourceData(e, node, keycode,  keychar, sourceData) {
+    function filterSourceData(e, node, keychar, sourceData) {
         if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
             e.preventDefault();
             return;
@@ -314,13 +314,13 @@
         }
     }
 
-    $.fn.autocompleteToken = function (keycode, keychar, sourceData) {
+    $.fn.autocompleteToken = function (keychar, sourceData) {
         this.keydown(function(e){
             figureKeycodeOption(e);
         });
 
         this.keyup(function (e) {
-            filterSourceData(e, this, keycode, keychar, sourceData);
+            filterSourceData(e, this, keychar, sourceData);
         });
 
         this.blur(function () {
