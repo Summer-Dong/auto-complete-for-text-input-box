@@ -1,7 +1,6 @@
 (function($, window, document) {
     $(function() {
         var calculator = {
-            // Only for this object:
             // @license under Apache license
             // * @author Bevis Zhao (i@bevis.me, http://bevis.me)
             primaryStyles: ['fontFamily', 'fontSize', 'fontWeight', 'fontVariant', 'fontStyle',
