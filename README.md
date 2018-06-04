@@ -18,4 +18,4 @@ $("#input").autoCompleteToken('{', '}', [A, B, C, D, E, F, G]);
 #### License
 Copyright ©[Summer Dong](https://github.com/Summer-Dong/auto-complete-for-text-input-box)
 
-Licensed under the MIT license.
+Licensed under Apache license.

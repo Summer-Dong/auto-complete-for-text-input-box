@@ -1,9 +1,9 @@
-// Get caret pixel position
-// Copy from: https://github.com/beviz/jquery-caret-position-getter
 (function($, window, document) {
     $(function() {
         var calculator = {
-            // key styles
+            // Only for this object:
+            // @license under Apache license
+            // * @author Bevis Zhao (i@bevis.me, http://bevis.me)
             primaryStyles: ['fontFamily', 'fontSize', 'fontWeight', 'fontVariant', 'fontStyle',
                 'paddingLeft', 'paddingTop', 'paddingBottom', 'paddingRight',
                 'marginLeft', 'marginTop', 'marginBottom', 'marginRight',
