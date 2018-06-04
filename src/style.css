@@ -6,6 +6,7 @@ lable{
 .inputBox{
     width: 500px;
 }
+/*==========================================↓↓↓↓↓：For auto complete plugin============================================*/
 .dropDown{
     display:inline-block;
     border: 1px solid #c5c5c5;
@@ -23,3 +24,4 @@ lable{
 .hideDropDown{
     opacity: 0;
 }
+/*==========================================↑↑↑↑↑：For auto complete plugin============================================*/
