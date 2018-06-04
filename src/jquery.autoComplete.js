@@ -271,8 +271,8 @@
     }
 
     function filterSourceData(e, node, startKey, sourceData) {
-        if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
-            //38: arrowUp; 40: arrowDown;
+        if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1' || e.keyCode === 16) {
+            //38: arrowUp; 40: arrowDown; 16: shift;
             e.preventDefault();
             return;
         } else if (e.keyCode === 27 && hasDropDown()  && getDropDown().css('opacity') === '1') {
