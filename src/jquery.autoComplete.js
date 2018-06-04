@@ -243,10 +243,8 @@
 
     function figureKeycodeOption(e) {
         if ((e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 13) && hasDropDown() && getDropDown().css('opacity') === '1') {
+            // 38: arrowUp; 40: arrowDown; 13: Enter;
             e.preventDefault();
-        } else if ((e.keyCode === 27) && hasDropDown() && getDropDown().css('opacity') === '1') {
-            getDropdownRemoved();
-            return;
         }
         switch (e.keyCode) {
             case 38:
@@ -274,10 +272,12 @@
 
     function filterSourceData(e, node, keychar, sourceData) {
         if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
+            //38: arrowUp; 40: arrowDown;
             e.preventDefault();
             return;
-        } else if (e.keyCode === 27) {
-            e.preventDefault();
+        } else if (e.keyCode === 27 && hasDropDown()  && getDropDown().css('opacity') === '1') {
+            // 27: Esc;
+            getDropdownRemoved();
             return;
         }
 
