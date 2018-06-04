@@ -136,7 +136,7 @@
 
 (function ($) {
 
-    var blurredEle, akeychar;
+    var blurredEle, astartKey;
     var ulNode=document.createElement('ul');
     $(ulNode).addClass("dropDown")
         .attr('id','autoCompleteDropDown');
@@ -170,13 +170,13 @@
         }
     }
 
-    function getLastestPositionOfKeychar(ele, keychar) {
-        return ele.value.slice(0, getCaretPosition(ele)).lastIndexOf(keychar);
+    function getLastestPositionOfStartKey(ele, startKey) {
+        return ele.value.slice(0, getCaretPosition(ele)).lastIndexOf(startKey);
     }
 
-    function extractNewInputs(node, keychar) {
-        if (getLastestPositionOfKeychar(node, keychar) >= 0) {
-            return node.value.slice(getLastestPositionOfKeychar(node, keychar), getCaretPosition(node));
+    function extractNewInputs(node, startKey) {
+        if (getLastestPositionOfStartKey(node, startKey) >= 0) {
+            return node.value.slice(getLastestPositionOfStartKey(node, startKey), getCaretPosition(node));
         }
         return '';
     }
@@ -199,7 +199,7 @@
                         },function(){
                             $(this).removeClass("hoverLi");
                         }).click(function(){
-                            blurredEle && addToken(blurredEle, akeychar);
+                            blurredEle && addToken(blurredEle, astartKey);
                             blurredEle = null;
                     });
                     liNode.innerHTML = ele;
@@ -216,10 +216,10 @@
         return getDropDown().find('li.hoverLi');
     }
 
-    function addToken(node, keychar){
+    function addToken(node, startKey){
         var token = getHoveredLi().text();
         var inputsUtilCaret = node.value
-            .slice(0, getLastestPositionOfKeychar(node,keychar))
+            .slice(0, getLastestPositionOfStartKey(node,startKey))
             .concat(token);
         node.value = inputsUtilCaret
             .concat(node.value.slice(getCaretPosition(node)));
@@ -270,7 +270,7 @@
         }
     }
 
-    function filterSourceData(e, node, keychar, sourceData) {
+    function filterSourceData(e, node, startKey, sourceData) {
         if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1') {
             //38: arrowUp; 40: arrowDown;
             e.preventDefault();
@@ -284,14 +284,14 @@
         switch (e.keyCode){
             case 13:
                 if (hasHoveredList()) {
-                    addToken(node, keychar);
+                    addToken(node, startKey);
                 }
                 return;
             default:
                 break;
         }
 
-        var matchedData = filterData(sourceData, extractNewInputs(node, keychar));
+        var matchedData = filterData(sourceData, extractNewInputs(node, startKey));
         if (matchedData.length) {
             if(hasDropDown()){
                 getDropDown().find('li').remove();
@@ -314,18 +314,18 @@
         }
     }
 
-    $.fn.autocompleteToken = function (keychar, sourceData) {
+    $.fn.autocompleteToken = function (startKey, sourceData) {
         this.keydown(function(e){
             figureKeycodeOption(e);
         });
 
         this.keyup(function (e) {
-            filterSourceData(e, this, keychar, sourceData);
+            filterSourceData(e, this, startKey, sourceData);
         });
 
         this.blur(function () {
             blurredEle = this;
-            akeychar = keychar;
+            astartKey = startKey;
             console.log($(':focus'));
             getDropDown().removeClass('showDropDown').addClass('hideDropDown');
         });
