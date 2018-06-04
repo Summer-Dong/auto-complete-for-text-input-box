@@ -319,7 +319,7 @@
         }
     }
 
-    $.fn.autocompleteToken = function (startKey, endKey, sourceData) {
+    $.fn.autoCompleteToken = function (startKey, endKey, sourceData) {
         this.keydown(function(e){
             figureKeycodeOption(e);
         });
