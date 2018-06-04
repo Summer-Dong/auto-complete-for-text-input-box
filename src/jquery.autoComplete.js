@@ -270,7 +270,7 @@
         }
     }
 
-    function filterSourceData(e, node, startKey, sourceData) {
+    function filterSourceData(e, node, startKey, endKey, sourceData) {
         if ((e.keyCode === 38 || e.keyCode === 40) && hasDropDown()  && getDropDown().css('opacity') === '1' || e.keyCode === 16) {
             //38: arrowUp; 40: arrowDown; 16: shift;
             e.preventDefault();
@@ -289,6 +289,11 @@
                 return;
             default:
                 break;
+        }
+
+        if(node.value.slice(getCaretPosition(node)-1, getCaretPosition(node)) === endKey){
+            getDropdownRemoved();
+            return;
         }
 
         var matchedData = filterData(sourceData, extractNewInputs(node, startKey));
@@ -314,13 +319,13 @@
         }
     }
 
-    $.fn.autocompleteToken = function (startKey, sourceData) {
+    $.fn.autocompleteToken = function (startKey, endKey, sourceData) {
         this.keydown(function(e){
             figureKeycodeOption(e);
         });
 
         this.keyup(function (e) {
-            filterSourceData(e, this, startKey, sourceData);
+            filterSourceData(e, this, startKey, endKey, sourceData);
         });
 
         this.blur(function () {
