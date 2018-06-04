@@ -2,6 +2,7 @@
 
 [![release](https://img.shields.io/github/release/Summer-Dong/auto-complete-for-text-input-box.svg)](https://github.com/Summer-Dong/auto-complete-for-text-input-box/releases/latest)
 
+![image](/src/example.gif)
 #### This is an auto-complete jquery plugin. When you use this plugin, you should pass it 3 arguments, includes startKey, endKey and sourceData:
 * **startKey**: means the correspond key that when we press the key should the recommend list appear.
 * **endKey**: means the correspond key that when we press the key should the recommend list disappear.
