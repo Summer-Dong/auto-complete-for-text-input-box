@@ -282,9 +282,6 @@
         }
 
         switch (e.keyCode){
-            case keycode:
-                !hasDropDown() && $(ulNode).insertAfter(node);
-                break;
             case 13:
                 if (hasHoveredList()) {
                     addToken(node, keychar);
