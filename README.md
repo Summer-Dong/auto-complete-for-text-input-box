@@ -10,7 +10,7 @@
 #### How to use:
 * import the '[jquery.autoCompleteToken.js](/src/jquery.autoCompleteToken.js)' file.
 * Add the necessary css style that marked in '[style.css](/src/style.css)' into your file, and your can adjust it as you like.
-* Call the plugin for an editable input box everywhere you need.
+* Call the plugin for an editable input box everywhere you need, for example:
 ```js
 $("#input").autoCompleteToken('{', '}', [A, B, C, D, E, F, G]);
 ```
