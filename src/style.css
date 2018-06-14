@@ -8,7 +8,7 @@ lable{
 }
 /*==========================================↓↓↓↓↓：For auto complete plugin============================================*/
 .dropDown{
-    display:inline-block;
+    display:inline;
     border: 1px solid #c5c5c5;
     position: absolute;
     background-color: #f9f9f9;
@@ -19,9 +19,9 @@ lable{
     background-color: #307ef0;
 }
 .showDropDown{
-    opacity: 1;
+    display: inline;
 }
 .hideDropDown{
-    opacity: 0;
+    display: none;
 }
 /*==========================================↑↑↑↑↑：For auto complete plugin============================================*/
