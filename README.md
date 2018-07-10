@@ -4,8 +4,9 @@
 
 ![image](/src/example.gif)
 #### How to use:
+* import jquery source file, in this project, the jquery version is `1.7.1`, but please note that if your jquery version is higher than this, there are some API were removed, like `jquery.brower`, see more detail in jquery spec and find your ways to fix it.
 * import the '[jquery.autoCompleteToken.js](/src/jquery.autoCompleteToken.js)' file.
-* Add the necessary css style that marked in '[style.css](/src/style.css)' into your file, and your can adjust it as you like.
+* Add the necessary css style that marked in '[style.css](/src/style.css)' into your file, and you can adjust it as you like.
 * Call the plugin for an editable input box everywhere you need, for example:
 ```js
 $("#input").autoCompleteToken('{', '}', [A, B, C, D, E, F, G]);
